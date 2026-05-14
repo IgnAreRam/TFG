@@ -39,6 +39,15 @@ public:
     // @funcion principal recorre el mapa y marca como OFFLINE a las cámaras que no han enviado PING hace X segundos
     // @autor ignacio arenas ramos
     void revisarConexiones(int timeout_seg);
+
+    // metodos/funciones 
+    // @param entrada 1 id de la camara (int)
+    // @param entrada 2 el eje a mover, ej: "X" o "Y" (string)
+    // @param entrada 3 los grados a los que debe ir, ej: 90 o 180 (int)
+    // @param devuelve un booleano indicando el éxito
+    // @funcion principal Busca la cámara por ID, formatea el protocolo del servo y lo envía de forma segura usando el mutex.
+    // @autor ignacio arenas ramos
+    bool moverServo(int id_camara, const string& eje, int grados);
 };
 
 #endif

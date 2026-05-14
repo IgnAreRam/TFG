@@ -1,4 +1,6 @@
 #include "CamaraESP.h"
+#include <sys/socket.h>
+#include <cstring>
 
 // metodos/funciones 
 // @param entrada 1 id de cámara
@@ -26,3 +28,23 @@ int CamaraESP::getSocket() const { return socket_fd; }
 bool CamaraESP::isOnline() const { return online; }
 time_t CamaraESP::getUltimoPing() const { return ultimo_ping; }
 void CamaraESP::setOffline() { online = false; }
+
+bool CamaraESP::enviarComando(const string& comando) {
+    if (!online) {
+        cerr << "[AVISO] Intento de mover servo en cámara " << id_camara << " que está OFFLINE." << endl;
+        return false;
+    }
+
+    // Aseguramos que el comando termine en salto de línea para que el ESP32 sepa dónde acaba
+    string mensaje_final = comando + "\n"; 
+
+    // send() es la función nativa de C para escribir en un socket TCP
+    int bytes_enviados = send(socket_fd, mensaje_final.c_str(), mensaje_final.length(), 0);
+
+    if (bytes_enviados < 0) {
+        cerr << "[ERROR] Fallo al enviar comando a la cámara " << id_camara << endl;
+        return false;
+    }
+
+    return true;
+}

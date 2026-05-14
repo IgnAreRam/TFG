@@ -86,4 +86,24 @@ void hebraListenerESP32(int socket_maestro, GestorControl& gestor) {
             }
         }
     }
+
+    if (FD_ISSET(socket_maestro, &set_lectura)) {
+            int nuevo_socket = accept(socket_maestro, (struct sockaddr *)&direccion, &addrlen);
+            
+            if (nuevo_socket > 0) {
+                // 1. En lugar de simular, leemos el socket
+                int id_real = Protocolo::leerIdentificacion(nuevo_socket);
+
+                if (id_real != -1) {
+                    // 2. Si es válido, instanciamos la cámara con su ID real
+                    CamaraESP* nueva_camara = new CamaraESP(id_real, nuevo_socket);
+                    gestor.agregarCamara(nueva_camara);
+                    cout << "[NET] ESP32 Registrado con EXITO. ID: " << id_real << endl;
+                } else {
+                    // 3. Si manda basura o falla, cerramos la conexión por seguridad
+                    cout << "[NET] Intento de conexion invalido. Rechazando..." << endl;
+                    close(nuevo_socket); 
+                }
+            }
+        }
 }

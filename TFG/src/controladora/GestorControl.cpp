@@ -24,5 +24,29 @@ void GestorControl::revisarConexiones(int timeout_seg) {
             cout << "[WARNING] Cámara " << id << " ha pasado a estado OFFLINE." << endl;
             // Aquí en el futuro llamaremos a la Hebra DB para actualizar PostgreSQL
         }
+    }\
+
+
+bool GestorControl::moverServo(int id_camara, const string& eje, int grados) {
+    lock_guard<mutex> lock(mtx_lista); // Protegemos el mapa
+
+    // 1. Buscamos si la cámara existe en nuestro mapa
+    if (lista_camaras.find(id_camara) != lista_camaras.end()) {
+        
+        // 2. Construimos el protocolo que leerá el Arduino/ESP32. Ej: "SERVO:X:180"
+        string comando = "SERVO:" + eje + ":" + to_string(grados);
+        
+        // 3. Enviamos
+        bool exito = lista_camaras[id_camara]->enviarComando(comando);
+        
+        if (exito) {
+            cout << "[CONTROL] Comando de movimiento [" << comando << "] enviado a cámara " << id_camara << endl;
+        }
+        return exito;
     }
+
+    cerr << "[ERROR] No se puede mover servo. Cámara " << id_camara << " no encontrada." << endl;
+    return false;
+}
+
 }

@@ -41,6 +41,13 @@ public:
         online = true;
     }
 
+    // metodos/funciones 
+    // @param entrada 1 un string con el comando exacto a enviar
+    // @param devuelve un booleano (true si se envió bien, false si falló)
+    // @funcion principal Escribe un mensaje de texto plano en el socket TCP hacia el ESP32.
+    // @autor ignacio arenas ramos
+    bool enviarComando(const string& comando);
+
     // Getters básicos (Autodescriptivos, sin alterar la lógica compleja)
     int getId() const { return id_camara; }
     int getSocket() const { return socket_fd; }
