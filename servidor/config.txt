@@ -1,0 +1,16 @@
+# Configuración de El Centinela (formato clave=valor)
+
+# Cadena de conexión a PostgreSQL (libpq)
+db=host=127.0.0.1 port=5432 dbname=elcentinela user=ignacio password=1234
+
+# Puerto TCP único que se expone con ngrok
+puerto=8080
+
+# Ruta al script de YOLO (relativa a donde se ejecuta el binario, en build/)
+yolo=../yolo_server.py
+
+# Carpeta donde se guardan fotos y vídeos (relativa a build/)
+medios=../../medios
+
+# Ruta del log del servidor (para poder verlo desde la app)
+log=../../servidor.log

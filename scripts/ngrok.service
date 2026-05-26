@@ -1,0 +1,17 @@
+[Unit]
+Description=ngrok TCP tunnel para El Centinela (expone el puerto 8080)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ignacio
+Environment=HOME=/home/ignacio
+# El authtoken está en ~/.config/ngrok/ngrok.yml (ya configurado).
+# Para una dirección FIJA, añade --remote-addr X.tcp.ngrok.io:PUERTO (reservada en el dashboard).
+ExecStart=/usr/local/bin/ngrok tcp 8080 --log=stdout
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

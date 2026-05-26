@@ -1,0 +1,19 @@
+[Unit]
+Description=El Centinela - servidor C++ (recibe ESP32/Flutter, lanza YOLO)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ignacio
+Environment=HOME=/home/ignacio
+WorkingDirectory=/home/ignacio/tfg-elcentinela-final/servidor/build
+ExecStart=/home/ignacio/tfg-elcentinela-final/servidor/build/elcentinela_server ../config.txt
+# El log va al mismo fichero que lee el visor de logs de la app.
+StandardOutput=append:/home/ignacio/tfg-elcentinela-final/servidor.log
+StandardError=append:/home/ignacio/tfg-elcentinela-final/servidor.log
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

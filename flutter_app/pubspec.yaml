@@ -1,0 +1,19 @@
+name: elcentinela_app
+description: App de El Centinela para ver cámaras y controlarlas.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Reproducir los vídeos (mp4) descargados del servidor.
+  video_player: ^2.9.2
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
